@@ -13,6 +13,7 @@
             --dim-text: #666666;
             --border: #2a2a2a;
             --accent: #ffffff;
+            --error: #ff4444;
         }
 
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; border-radius: 0 !important; }
@@ -61,55 +62,16 @@
             margin-bottom: 40px;
         }
 
-        .dash-box {
-            background: var(--surface);
-            padding: 15px 5px;
-            text-align: center;
-        }
-
-        .dash-box i {
-            display: block;
-            font-size: 0.9rem;
-            color: var(--dim-text);
-            margin-bottom: 8px;
-        }
-
-        .dash-label {
-            display: block;
-            font-size: 0.6rem;
-            color: var(--dim-text);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 2px;
-        }
-
+        .dash-box { background: var(--surface); padding: 15px 5px; text-align: center; }
+        .dash-box i { display: block; font-size: 0.9rem; color: var(--dim-text); margin-bottom: 8px; }
+        .dash-label { display: block; font-size: 0.6rem; color: var(--dim-text); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px; }
         .dash-value { font-size: 1.1rem; font-weight: 600; }
 
-        #news-line {
-            color: var(--dim-text);
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid var(--border);
-        }
-
+        #news-line { color: var(--dim-text); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
         #news-line i { margin-right: 10px; }
 
-        #scenario-text {
-            flex-grow: 1;
-            font-size: 1.1rem;
-            font-weight: 300;
-            line-height: 1.7;
-        }
-
-        #choice-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 20px;
-        }
+        #scenario-text { flex-grow: 1; font-size: 1.1rem; font-weight: 300; line-height: 1.7; }
+        #choice-container { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
 
         .btn {
             background: transparent;
@@ -129,19 +91,24 @@
 
         .btn:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
 
-        .role-card {
-            border: 1px solid var(--border);
-            padding: 25px;
-            margin-bottom: 12px;
-            cursor: pointer;
-            transition: border-color 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
+        .role-card { border: 1px solid var(--border); padding: 25px; margin-bottom: 12px; cursor: pointer; transition: border-color 0.2s; display: flex; align-items: center; gap: 20px; }
         .role-card:hover { border-color: var(--accent); }
         .role-card i { font-size: 1.5rem; color: var(--dim-text); }
+
+        /* Error UI */
+        #error-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            color: var(--error);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
 
         h1 { font-size: 1.4rem; text-transform: uppercase; letter-spacing: 5px; margin-bottom: 40px; text-align: center; }
 
@@ -155,9 +122,16 @@
 <body>
 
 <div id="game-window">
+    <div id="error-overlay" class="hidden">
+        <i class="fa-solid fa-triangle-exclamation" style="font-size: 3rem; margin-bottom: 20px;"></i>
+        <h2 style="text-transform: uppercase; letter-spacing: 2px;">System Failure</h2>
+        <p id="error-message" style="color: var(--dim-text); margin-bottom: 30px;"></p>
+        <button class="btn" onclick="location.reload()">Reload Module</button>
+    </div>
+
     <div id="start-screen" class="screen" style="justify-content: center;">
         <h1><i class="fa-solid fa-building-columns"></i><br>Executive Sim</h1>
-        <button class="btn" style="width: 200px; align-self: center; justify-content: center;" onclick="showScreen('char-screen')">Initialize</button>
+        <button class="btn" style="width: 200px; align-self: center; justify-content: center;" onclick="checkSystem()">Initialize</button>
     </div>
 
     <div id="char-screen" class="screen hidden">
@@ -204,56 +178,85 @@
     let turn = 1;
     let pool = [];
 
+    function showError(msg) {
+        document.getElementById('error-message').innerText = msg;
+        document.getElementById('error-overlay').classList.remove('hidden');
+    }
+
+    function checkSystem() {
+        // Error check for missing mission file
+        if (typeof missions === 'undefined' || !Array.isArray(missions)) {
+            showError("Core missions.js file missing or corrupted.");
+            return;
+        }
+        showScreen('char-screen');
+    }
+
     function showScreen(id) {
         document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
-        document.getElementById(id).classList.remove('hidden');
+        const screen = document.getElementById(id);
+        if (screen) screen.classList.remove('hidden');
+        else showError(`Screen ID "${id}" not found.`);
     }
 
     function startGame(app, bud, mil) {
         stats = { app, bud, mil };
         turn = 1;
-        pool = [...missions]; // 'missions' is now pulled from missions.js
+        pool = [...missions];
         showScreen('game-screen');
         updateUI();
         loadMission();
     }
 
     function updateUI() {
-        document.getElementById('stat-app').innerText = stats.app + "%";
-        document.getElementById('stat-bud').innerText = "$" + stats.bud + "m";
-        document.getElementById('stat-mil').innerText = stats.mil + "%";
-        document.getElementById('turn-num').innerText = turn + "/48";
+        try {
+            document.getElementById('stat-app').innerText = stats.app + "%";
+            document.getElementById('stat-bud').innerText = "$" + stats.bud + "m";
+            document.getElementById('stat-mil').innerText = stats.mil + "%";
+            document.getElementById('turn-num').innerText = turn + "/48";
 
-        if (stats.app <= 0) gameOver("IMPEACHED: Public trust has dissolved.");
-        else if (stats.bud <= 0) gameOver("BANKRUPT: Treasury empty.");
-        else if (stats.mil <= 0) gameOver("COUP: Military seized control.");
-        else if (turn >= 48) gameOver("SUCCESS: Term completed.");
+            if (stats.app <= 0) gameOver("IMPEACHED: Public trust has dissolved.");
+            else if (stats.bud <= 0) gameOver("BANKRUPT: Treasury empty.");
+            else if (stats.mil <= 0) gameOver("COUP: Military seized control.");
+            else if (turn >= 48) gameOver("SUCCESS: Term completed.");
+        } catch (e) {
+            showError("UI Update Failed: " + e.message);
+        }
     }
 
     function loadMission() {
-        if (pool.length === 0) pool = [...missions];
-        const idx = Math.floor(Math.random() * pool.length);
-        const m = pool.splice(idx, 1)[0];
-        
-        document.getElementById('scenario-text').innerText = m.text;
-        document.getElementById('news-line').innerHTML = `<i class="fa-solid fa-folder-open"></i> REPORT: ${m.news}`;
-        
-        const container = document.getElementById('choice-container');
-        container.innerHTML = "";
+        try {
+            if (pool.length === 0) pool = [...missions];
+            const idx = Math.floor(Math.random() * pool.length);
+            const m = pool.splice(idx, 1)[0];
+            
+            if (!m || !m.options) throw new Error("Mission data incomplete.");
 
-        m.options.forEach(opt => {
-            const btn = document.createElement('button');
-            btn.className = "btn";
-            btn.innerHTML = `${opt.text} <i class="fa-solid fa-chevron-right" style="font-size: 0.6rem;"></i>`;
-            btn.onclick = () => {
-                // PASSING THE STATS OBJECT TO THE MISSION FUNCTION
-                opt.run(stats);
-                turn++;
-                updateUI();
-                if (turn <= 48 && stats.app > 0 && stats.bud > 0 && stats.mil > 0) loadMission();
-            };
-            container.appendChild(btn);
-        });
+            document.getElementById('scenario-text').innerText = m.text;
+            document.getElementById('news-line').innerHTML = `<i class="fa-solid fa-folder-open"></i> REPORT: ${m.news}`;
+            
+            const container = document.getElementById('choice-container');
+            container.innerHTML = "";
+
+            m.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = "btn";
+                btn.innerHTML = `${opt.text} <i class="fa-solid fa-chevron-right" style="font-size: 0.6rem;"></i>`;
+                btn.onclick = () => {
+                    try {
+                        opt.run(stats);
+                        turn++;
+                        updateUI();
+                        if (turn <= 48 && stats.app > 0 && stats.bud > 0 && stats.mil > 0) loadMission();
+                    } catch (choiceErr) {
+                        showError("Mission Logic Error: " + choiceErr.message);
+                    }
+                };
+                container.appendChild(btn);
+            });
+        } catch (e) {
+            showError("Mission Loader Failed: " + e.message);
+        }
     }
 
     function gameOver(reason) {
@@ -261,6 +264,12 @@
         document.getElementById('end-reason').innerText = reason;
         if (turn >= 48) document.getElementById('end-title').innerText = "Term Successful";
     }
+
+    // Global catch for unhandled script errors
+    window.onerror = function(msg, url, line) {
+        showError(`Runtime Error: ${msg} (Line: ${line})`);
+        return true;
+    };
 </script>
 </body>
 </html>
