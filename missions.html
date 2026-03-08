@@ -1,0 +1,67 @@
+const missions = [
+    { 
+        text: "A massive data leak has exposed government secrets. The public is furious and demands transparency.", 
+        news: "Security Breach Detected", 
+        options: [
+            { text: "Admit Fault & Declassify", run: (stats) => { stats.app += 10; stats.mil -= 15; } }, 
+            { text: "Censor & Detain Leakers", run: (stats) => { stats.app -= 20; stats.mil += 10; } }
+        ] 
+    },
+    { 
+        text: "A foreign power offers a massive loan to fix infrastructure, but they want permanent control of your ports.", 
+        news: "Foreign Debt Proposal", 
+        options: [
+            { text: "Accept the Loan", run: (stats) => { stats.bud += 800; stats.mil -= 15; } }, 
+            { text: "Reject & Austerity", run: (stats) => { stats.app -= 10; stats.mil += 5; } }
+        ] 
+    },
+    { 
+        text: "The military high command demands a 20% budget increase for 'strategic modernization'.", 
+        news: "Pentagon Request", 
+        options: [
+            { text: "Grant Full Funding", run: (stats) => { stats.bud -= 400; stats.mil += 20; } }, 
+            { text: "Reallocate to Social", run: (stats) => { stats.app += 15; stats.mil -= 15; } }
+        ] 
+    },
+    { 
+        text: "A global pandemic is beginning to strain the workforce. Industry leaders demand you stay open.", 
+        news: "Public Health Emergency", 
+        options: [
+            { text: "Mandatory Lockdown", run: (stats) => { stats.bud -= 500; stats.app += 10; } }, 
+            { text: "Prioritize Economy", run: (stats) => { stats.bud += 200; stats.app -= 30; } }
+        ] 
+    },
+    { 
+        text: "AI automation has displaced 30% of the manufacturing sector. Riots are breaking out.", 
+        news: "Automation Crisis", 
+        options: [
+            { text: "Universal Basic Income", run: (stats) => { stats.bud -= 600; stats.app += 25; } }, 
+            { text: "Deploy Riot Police", run: (stats) => { stats.mil += 15; stats.app -= 20; } }
+        ] 
+    },
+    { 
+        text: "An offshore oil rig has collapsed, devastating the coastline and fishing industry.", 
+        news: "Ecological Disaster", 
+        options: [
+            { text: "Heavy Corporate Fine", run: (stats) => { stats.bud += 300; stats.app += 5; } }, 
+            { text: "Government Cleanup", run: (stats) => { stats.bud -= 400; stats.app += 10; } }
+        ] 
+    },
+    { 
+        text: "Deep space sensors detected an incoming asteroid. Preparation requires massive funding.", 
+        news: "Extinction Threat", 
+        options: [
+            { text: "Fund Deflection Tech", run: (stats) => { stats.bud -= 700; stats.mil += 10; } }, 
+            { text: "Keep it Secret", run: (stats) => { stats.app -= 40; stats.bud += 100; } }
+        ] 
+    },
+    { 
+        text: "The central bank warns of hyperinflation. They suggest freezing all wages.", 
+        news: "Currency Collapse", 
+        options: [
+            { text: "Freeze Wages", run: (stats) => { stats.bud += 200; stats.app -= 25; } }, 
+            { text: "Print More Money", run: (stats) => { stats.bud -= 500; stats.app += 5; } }
+        ] 
+    }
+];
+
