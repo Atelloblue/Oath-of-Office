@@ -5,7 +5,7 @@ const missions = [
         options: [
             { text: "Admit Fault & Declassify", sub: "Boosts trust, weakens security", deltas: {app: 15, mil: -15}, run: (s) => { s.app += 15; s.mil -= 15; } }, 
             { text: "Censor & Detain", sub: "Iron-fisted stability", deltas: {app: -20, mil: 15}, run: (s) => { s.app -= 20; s.mil += 15; } },
-            { text: "Blame a Scapegoat", sub: "Risky gamble", deltas: {app: '?', mil: '?'}, run: (s) => { if(Math.random() > 0.5) { s.app += 5; } else { s.app -= 25; s.mil -= 10; } } }
+            { text: "Blame a Scapegoat", sub: "Risky 50/50 gamble", deltas: {app: '?', mil: '?'}, run: (s) => { if(Math.random() > 0.5) { s.app += 5; } else { s.app -= 25; s.mil -= 10; } } }
         ] 
     },
     { 
