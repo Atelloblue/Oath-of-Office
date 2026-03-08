@@ -108,7 +108,6 @@
         .role-card:hover { border-color: var(--accent); }
         .role-card i { font-size: 1.5rem; color: var(--dim-text); }
 
-        /* Error UI */
         #error-overlay {
             position: absolute;
             inset: 0;
@@ -236,6 +235,7 @@
         }
     }
 
+    // Helper to format the numerical preview text
     function formatDelta(val, label) {
         if (!val) return "";
         if (val === '?') return `?? ${label}`;
@@ -260,16 +260,17 @@
                 const btn = document.createElement('button');
                 btn.className = "btn";
 
-                // Stat Preview Logic (from deltas object in missions.js)
+                // 1. Calculate Stat Preview lines
                 let d = opt.deltas || {};
                 let previewLines = [];
                 if (d.app) previewLines.push(formatDelta(d.app, "APP"));
                 if (d.bud) previewLines.push(formatDelta(d.bud, "BUD"));
                 if (d.mil) previewLines.push(formatDelta(d.mil, "MIL"));
                 
-                // Benefit and Con Logic (using the 'sub' property)
+                // 2. Format Benefits/Cons (the 'sub' text)
                 const subText = opt.sub ? `<div style="font-size: 0.65rem; color: var(--dim-text); text-transform: none; margin-top: 4px;">${opt.sub}</div>` : "";
 
+                // 3. Set the Button Layout
                 btn.innerHTML = `
                     <div style="flex-grow: 1; padding-right: 10px;">
                         <div style="font-weight: 600;">${opt.text}</div>
