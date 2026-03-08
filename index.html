@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Executive Simulator</title>
+    <title>Oath of Office</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -124,14 +124,14 @@
 <div id="game-window">
     <div id="error-overlay" class="hidden">
         <i class="fa-solid fa-triangle-exclamation" style="font-size: 3rem; margin-bottom: 20px;"></i>
-        <h2 style="text-transform: uppercase; letter-spacing: 2px;">System Failure</h2>
+        <h2 style="text-transform: uppercase; letter-spacing: 2px;">Something went wrong</h2>
         <p id="error-message" style="color: var(--dim-text); margin-bottom: 30px;"></p>
-        <button class="btn" onclick="location.reload()">Reload Module</button>
+        <button class="btn" onclick="location.reload()">Reload</button>
     </div>
 
     <div id="start-screen" class="screen" style="justify-content: center;">
-        <h1><i class="fa-solid fa-building-columns"></i><br>Executive Sim</h1>
-        <button class="btn" style="width: 200px; align-self: center; justify-content: center;" onclick="checkSystem()">Initialize</button>
+        <h1><i class="fa-solid fa-building-columns"></i><br>Oath of Office</h1>
+        <button class="btn" style="width: 200px; align-self: center; justify-content: center;" onclick="checkSystem()">Play</button>
     </div>
 
     <div id="char-screen" class="screen hidden">
@@ -152,9 +152,9 @@
 
     <div id="game-screen" class="screen hidden">
         <div id="dashboard">
-            <div class="dash-box"><i class="fa-solid fa-heart-pulse"></i><span class="dash-label">App</span><span id="stat-app" class="dash-value">--</span></div>
-            <div class="dash-box"><i class="fa-solid fa-vault"></i><span class="dash-label">Trea</span><span id="stat-bud" class="dash-value">--</span></div>
-            <div class="dash-box"><i class="fa-solid fa-jet-fighter"></i><span class="dash-label">Mil</span><span id="stat-mil" class="dash-value">--</span></div>
+            <div class="dash-box"><i class="fa-solid fa-heart-pulse"></i><span class="dash-label">Approval</span><span id="stat-app" class="dash-value">--</span></div>
+            <div class="dash-box"><i class="fa-solid fa-vault"></i><span class="dash-label">Treasury</span><span id="stat-bud" class="dash-value">--</span></div>
+            <div class="dash-box"><i class="fa-solid fa-jet-fighter"></i><span class="dash-label">Military</span><span id="stat-mil" class="dash-value">--</span></div>
             <div class="dash-box"><i class="fa-solid fa-calendar-day"></i><span class="dash-label">Month</span><span id="turn-num" class="dash-value">1</span></div>
         </div>
         <div id="news-line"><i class="fa-solid fa-folder-open"></i> Intelligence Briefing</div>
@@ -163,10 +163,10 @@
     </div>
 
     <div id="end-screen" class="screen hidden" style="justify-content:center; text-align:center;">
-        <h1 id="end-title">Term Terminated</h1>
+        <h1 id="end-title">Term Ended</h1>
         <p id="end-reason" style="margin-bottom: 40px; color: var(--dim-text);"></p>
         <button class="btn" style="width: 220px; align-self: center; justify-content: center;" onclick="location.reload()">
-            <i class="fa-solid fa-rotate-right" style="margin-right: 10px;"></i> Re-Initialize
+            <i class="fa-solid fa-rotate-right" style="margin-right: 10px;"></i> Restart
         </button>
     </div>
 </div>
