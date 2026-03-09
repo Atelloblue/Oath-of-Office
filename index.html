@@ -189,7 +189,7 @@
     </div>
 </div>
 
-<script src="missions.js"></script>
+<script src="events.js"></script>
 
 <script>
     let stats = { app: 50, bud: 1000, mil: 50 };
@@ -204,7 +204,7 @@
 
     function checkSystem() {
         if (typeof missions === 'undefined' || !Array.isArray(missions)) {
-            showError("missions.js file missing or corrupted.");
+            showError("events.js file missing or corrupted.");
             return;
         }
         showScreen('char-screen');
@@ -275,7 +275,7 @@
 
     function renderCrisisOptions(options) {
         const container = document.getElementById('choice-container');
-        container.innerHTML = ""; // Clear existing mission buttons
+        container.innerHTML = ""; // Clear existing event buttons
         options.forEach(opt => {
             const btn = document.createElement('button');
             btn.className = "btn";
