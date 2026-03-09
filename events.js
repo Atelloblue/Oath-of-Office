@@ -2,382 +2,424 @@
 const events = [
     { 
         news: "SECURITY BREACH",
-        text: "A massive data leak has exposed government secrets. The public is furious and demands transparency.", 
+        text: "A Whistleblower has leaked 50 terabytes of classified surveillance data. The public now knows about 'Project Watchtower,' and riots are beginning in the capital.", 
         options: [
-            { text: "Admit Fault & Declassify", sub: "Boosts trust, weakens security", deltas: {app: 15, mil: -15}, run: (s) => { s.app += 15; s.mil -= 15; } }, 
-            { text: "Censor & Detain", sub: "Iron-fisted stability", deltas: {app: -20, mil: 15}, run: (s) => { s.app -= 20; s.mil += 15; } },
-            { text: "Blame a Scapegoat", sub: "Risky 50/50 gamble", deltas: {app: '?', mil: '?'}, run: (s) => { if(Math.random() > 0.5) { s.app += 5; } else { s.app -= 25; s.mil -= 10; } } }
+            { text: "Declassify & Reform", sub: "Transparency restores trust but exposes vulnerabilities.", deltas: {app: 15, mil: -15}, run: (s) => { s.app += 15; s.mil -= 15; } }, 
+            { text: "Operation Blackout", sub: "Deploy the guard to seize servers and detain the leakers.", deltas: {app: -20, mil: 15}, run: (s) => { s.app -= 20; s.mil += 15; } },
+            { text: "Fabricate Evidence", sub: "Claim the leak was a foreign deepfake operation.", deltas: {app: '?', mil: '?'}, run: (s) => { if(Math.random() > 0.5) { s.app += 10; } else { s.app -= 30; s.mil -= 10; } } }
         ] 
     },
     { 
         news: "FOREIGN DEBT",
-        text: "A foreign power offers a massive loan to fix infrastructure, but they want permanent control of your ports.", 
+        text: "The 'Iron Bank' of the East offers a $1.2B loan to revitalize your decaying rail system, but the fine print demands a 99-year lease on your largest deep-water port.", 
         options: [
-            { text: "Accept the Loan", sub: "Immediate wealth, lost sovereignty", deltas: {bud: 800, mil: -15}, run: (s) => { s.bud += 800; s.mil -= 15; } }, 
-            { text: "Reject & Austerity", sub: "High public pain", deltas: {app: -15, mil: 5}, run: (s) => { s.app -= 15; s.mil += 5; } }
+            { text: "Sign the Lease", sub: "Infrastructure boom at the cost of national sovereignty.", deltas: {bud: 800, mil: -15}, run: (s) => { s.bud += 800; s.mil -= 15; } }, 
+            { text: "Austerity Measures", sub: "Reject the debt; slash public spending to pay for repairs.", deltas: {app: -20, mil: 5}, run: (s) => { s.app -= 20; s.mil += 5; } }
         ] 
     },
     { 
         news: "MILITARY LOBBY",
-        text: "The military high command demands a 20% budget increase for 'strategic modernization'.", 
+        text: "The Joint Chiefs argue that your current drone fleet is obsolete compared to neighboring threats. They demand a massive injection of funds for the 'Sky-Net' program.", 
         options: [
-            { text: "Grant Full Funding", sub: "Strong defense, empty pockets", deltas: {bud: -400, mil: 20}, run: (s) => { s.bud -= 400; s.mil += 20; } }, 
-            { text: "Reallocate to Social", sub: "Popular with voters", deltas: {app: 15, mil: -20}, run: (s) => { s.app += 15; s.mil -= 20; } },
-            { text: "Compromise (10%)", sub: "Keep both sides lukewarm", deltas: {bud: -200, mil: 5, app: 5}, run: (s) => { s.bud -= 200; s.mil += 5; s.app += 5; } }
+            { text: "Modernize Fleet", sub: "The military remains loyal and terrifyingly efficient.", deltas: {bud: -400, mil: 25}, run: (s) => { s.bud -= 400; s.mil += 25; } }, 
+            { text: "Civilian First", sub: "Redirect the 'Sky-Net' funds to universal healthcare.", deltas: {app: 20, mil: -25}, run: (s) => { s.app += 20; s.mil -= -25; } },
+            { text: "Gradual Upgrade", sub: "A compromise that pleases no one fully.", deltas: {bud: -200, mil: 5, app: 5}, run: (s) => { s.bud -= 200; s.mil += 5; s.app += 5; } }
         ] 
     },
     { 
         news: "TECH MONOPOLY",
-        text: "A major tech giant is under investigation for tax evasion. They threaten to move operations abroad.", 
+        text: "Singsam is siphoning profits to offshore tax havens. If you tax them, they threaten to automate your entire manufacturing sector out of existence.", 
         options: [
-            { text: "Seize Assets", sub: "The populist route", deltas: {bud: 500, app: 10, mil: -5}, run: (s) => { s.bud += 500; s.app += 10; s.mil -= 5; } }, 
-            { text: "Offer Tax Breaks", sub: "Keep the jobs, lose the cash", deltas: {bud: -300, app: -5}, run: (s) => { s.bud -= 300; s.app -= 5; } },
-            { text: "Nationalize Platform", sub: "Total state control", deltas: {app: -15, mil: 15, bud: 200}, run: (s) => { s.app -= 15; s.mil += 15; s.bud += 200; } }
+            { text: "Wealth Tax", sub: "Forced redistribution. The working class cheers.", deltas: {bud: 500, app: 15, mil: -5}, run: (s) => { s.bud += 500; s.app += 15; s.mil -= 5; } }, 
+            { text: "Corporate Subsidy", sub: "Keep the giants happy to maintain 'stability'.", deltas: {bud: -300, app: -10}, run: (s) => { s.bud -= 300; s.app -= 10; } },
+            { text: "State Takeover", sub: "Seize the servers. You are the tech giant now.", deltas: {app: -20, mil: 15, bud: 300}, run: (s) => { s.app -= 20; s.mil += 15; s.bud += 300; } }
         ] 
     },
     { 
         news: "CROP FAILURE",
-        text: "Severe drought has decimated the harvest. Food prices are skyrocketing.", 
+        text: "A 'Blight' has turned the breadbasket provinces into dust. Bread prices have tripled overnight, and the soup lines are miles long.", 
         options: [
-            { text: "Import & Subsidize", sub: "Keep the people fed", deltas: {bud: -450, app: 20}, run: (s) => { s.bud -= 450; s.app += 20; } }, 
-            { text: "Food Rationing", sub: "Order via the military", deltas: {app: -25, mil: 15}, run: (s) => { s.app -= 25; s.mil += 15; } },
-            { text: "Export anyway", sub: "Greed over people", deltas: {bud: 300, app: -40}, run: (s) => { s.bud += 300; s.app -= 40; } }
+            { text: "Emergency Imports", sub: "Drain the treasury to buy grain from rivals.", deltas: {bud: -500, app: 25}, run: (s) => { s.bud -= 500; s.app += 25; } }, 
+            { text: "Militarized Rationing", sub: "Tanks at the grocery stores. Nobody starves... yet.", deltas: {app: -30, mil: 20}, run: (s) => { s.app -= 30; s.mil += 20; } },
+            { text: "Laissez-Faire", sub: "Let the market decide. The rich eat, the rest riot.", deltas: {bud: 200, app: -50}, run: (s) => { s.bud += 200; s.app -= 50; } }
         ] 
     },
     { 
         news: "RELIGIOUS TENSION",
-        text: "A controversial law has sparked religious protests in the capital.", 
+        text: "The High Temple has issued a decree calling your latest social reforms 'sacrilegious.' Thousands are gathering for a 'Holy March' on the capital.", 
         options: [
-            { text: "Repeal the Law", sub: "Apologize to the masses", deltas: {app: 15, mil: -5}, run: (s) => { s.app += 15; s.mil -= 5; } }, 
-            { text: "Enforce Secularism", sub: "Assert state authority", deltas: {app: -20, mil: 15}, run: (s) => { s.app -= 20; s.mil += 15; } }
+            { text: "Concede to Clergy", sub: "Restore tradition to keep the peace.", deltas: {app: 15, mil: -10}, run: (s) => { s.app += 15; s.mil -= 10; } }, 
+            { text: "State Supremacy", sub: "Arrest the Bishops. The state is the only god here.", deltas: {app: -25, mil: 20}, run: (s) => { s.app -= 25; s.mil += 20; } }
         ] 
     },
     { 
         news: "SPACE DISCOVERY",
-        text: "Deep space probes have found rare minerals on a nearby moon. A race begins.", 
+        text: "The 'Icarus' probe has confirmed a moon composed of 40% solid Helium-3. Controlling it would mean infinite energy for the next century.", 
         options: [
-            { text: "Launch Expedition", sub: "Massive cost, huge prestige", deltas: {bud: -600, app: 15, mil: 10}, run: (s) => { s.bud -= 600; s.app += 15; s.mil += 10; } }, 
-            { text: "Sell Mining Rights", sub: "Quick cash injection", deltas: {bud: 400, app: -5}, run: (s) => { s.bud += 400; s.app -= 5; } }
+            { text: "Military Program", sub: "Weaponize the moon. Total global dominance.", deltas: {bud: -700, app: 10, mil: 30}, run: (s) => { s.bud -= 700; s.app += 10; s.mil += 30; } }, 
+            { text: "Commercial Auction", sub: "Sell the rights to privateers for immediate cash.", deltas: {bud: 600, app: -10}, run: (s) => { s.bud += 600; s.app -= 10; } }
         ] 
     },
     { 
         news: "ORGANIZED CRIME",
-        text: "A powerful cartel has infiltrated the police force in the southern district.", 
+        text: "The 'Syndicate Republic' is now providing more social services in the slums than your government. They are effectively a state within a state.", 
         options: [
-            { text: "Martial Law", sub: "Extreme military force", deltas: {app: -15, mil: 20, bud: -100}, run: (s) => { s.app -= 15; s.mil += 20; s.bud -= 100; } }, 
-            { text: "Legalize & Tax", sub: "Undercut the cartel", deltas: {bud: 300, app: 10, mil: -10}, run: (s) => { s.bud += 300; s.app += 10; s.mil -= 10; } },
-            { text: "Negotiate", sub: "Peace at a dark price", deltas: {app: -5, bud: 100, mil: -10}, run: (s) => { s.app -= 5; s.bud += 100; s.mil -= 10; } }
+            { text: "Total War", sub: "Send the army into the slums. Collateral damage is certain.", deltas: {app: -20, mil: 25, bud: -150}, run: (s) => { s.app -= 20; s.mil += 25; s.bud -= 150; } }, 
+            { text: "Tax the Syndicate", sub: "Unofficially legalize their 'businesses' for a cut.", deltas: {bud: 400, app: 15, mil: -15}, run: (s) => { s.bud += 400; s.app += 15; s.mil -= 15; } }
         ] 
     },
     { 
         news: "INTELLECTUAL PROPERTY",
-        text: "A neighboring nation is blatantly cloning your country's proprietary medical tech.", 
+        text: "A rival nation has stolen the blueprints for your 'Americare' medical tech and is selling it at a 90% discount on the black market.", 
         options: [
-            { text: "Trade Sanctions", sub: "Economic warfare", deltas: {bud: -200, mil: 5}, run: (s) => { s.bud -= 200; s.mil += 5; } }, 
-            { text: "Cyber Sabotage", sub: "Deniable operations", deltas: {mil: 10, app: '?'}, run: (s) => { s.mil += 10; if(Math.random() > 0.7) s.app -= 20; } },
-            { text: "Do Nothing", sub: "Maintain peace", deltas: {mil: -10, app: -5}, run: (s) => { s.mil -= 10; s.app -= 5; } }
+            { text: "Total Blockade", sub: "Halt all trade with the thieves.", deltas: {bud: -300, mil: 10}, run: (s) => { s.bud -= 300; s.mil += 10; } }, 
+            { text: "Cyber Retaliation", sub: "Crash their banking system in secret.", deltas: {mil: 15, app: '?'}, run: (s) => { s.mil += 15; if(Math.random() > 0.7) s.app -= 25; } }
         ] 
     },
     { 
         news: "EDUCATION REFORM",
-        text: "Teachers are on strike for higher wages and better facilities.", 
+        text: "The 'Bring Education Back' movement occupied the universities. They demand a 25% increase in teacher pay and the removal of 'Religion' from the curriculum.", 
         options: [
-            { text: "Meet Demands", sub: "Invest in the future", deltas: {bud: -300, app: 20}, run: (s) => { s.bud -= 300; s.app += 20; } }, 
-            { text: "Replace with AI", sub: "Efficiency over humans", deltas: {bud: -100, app: -25, mil: 5}, run: (s) => { s.bud -= 100; s.app -= 25; s.mil += 5; } },
-            { text: "Ignore Strike", sub: "The hardline stance", deltas: {app: -15}, run: (s) => { s.app -= 15; } }
+            { text: "Full Funding", sub: "A generation of thinkers, but a lighter treasury.", deltas: {bud: -300, app: 20}, run: (s) => { s.bud -= 300; s.app += 20; } }, 
+            { text: "Patriot-Bots", sub: "Replace striking teachers with AI-led instruction.", deltas: {bud: -150, app: -30, mil: 10}, run: (s) => { s.bud -= 150; s.app -= 30; s.mil += 10; } }
         ] 
     },
     { 
         news: "PANDEMIC FEAR",
-        text: "A new virus is spreading in the slums. Health officials recommend a total lockdown.", 
+        text: "The 'Boronavirus' is spreading. It has a 10% mortality rate and the hospitals are already at capacity. The slums are being barricaded.", 
         options: [
-            { text: "Mandatory Quarantine", sub: "Safety through force", deltas: {app: -20, mil: 10, bud: -200}, run: (s) => { s.app -= 20; s.mil += 10; s.bud -= 200; } }, 
-            { text: "Fund Vaccine Research", sub: "Long term recovery", deltas: {bud: -500, app: 15}, run: (s) => { s.bud -= 500; s.app += 15; } },
-            { text: "Ignore the Reports", sub: "Economy over all", deltas: {app: -10, bud: 100}, run: (s) => { s.app -= 10; s.bud += 100; } }
+            { text: "Steel Quarantine", sub: "Shoot-to-kill curfew. The virus stops here.", deltas: {app: -30, mil: 20, bud: -100}, run: (s) => { s.app -= 30; s.mil += 20; s.bud -= 100; } }, 
+            { text: "Mass Vaccination", sub: "Free vaccines for all, paid for by the military budget.", deltas: {bud: -600, app: 20, mil: -10}, run: (s) => { s.bud -= 600; s.app += 20; s.mil -= 10; } }
         ] 
     },
     { 
-        news: "OIL SPILL",
-        text: "A massive tanker leak is destroying the coastline's ecosystem and tourism.", 
+        news: "NATIONAL EMERGENCY: AN OIL RIG HAS EXPLODED IN THE GULF",
+        text: "The 'Downwater Horizon'—PB’s massive deep-water rig—has exploded in the Gulf. Crude oil is flooding the shoreline from Louisiana to Florida. The EPA warns of a total ecological collapse, and Gulf Coast Governors are demanding a Federal bailout.", 
         options: [
-            { text: "Fine the Company", sub: "Corporate accountability", deltas: {bud: 400, app: 10}, run: (s) => { s.bud += 400; s.app += 10; } }, 
-            { text: "State-Led Cleanup", sub: "Fast but expensive", deltas: {bud: -300, app: 5}, run: (s) => { s.bud -= 300; s.app += 5; } },
-            { text: "Cover it Up", sub: "Protect the industry", deltas: {app: '?', bud: 50}, run: (s) => { s.bud += 50; if(Math.random() > 0.6) { s.app -= 30; } } }
-        ] 
+            { 
+                text: "Invoke the Oil Pollution Act", 
+                sub: "Force PB into a multi-billion dollar escrow fund. Freeze their US assets until the bill is paid in full.", 
+                deltas: {bud: 1200, app: 20, mil: -10}, 
+                run: (s) => { s.bud += 1200; s.app += 20; s.mil -= 10; } 
+            }, 
+            { 
+                text: "Federal Disaster Declaration", 
+                sub: "Authorize FEMA and the Coast Guard for a total cleanup. Taxpayers pick up the tab to save the coastline.", 
+                deltas: {bud: -800, app: 10, mil: -15}, 
+                run: (s) => { s.bud -= 800; s.app += 10; s.mil -= 15; } 
+            },
+            { 
+                text: "Executive Settlement",
+                sub: "Sign a non-disclosure agreement with PB in exchange for a massive 'Campaign Contribution.'", 
+                deltas: {bud: 400, app: -40}, 
+                run: (s) => { s.bud += 400; s.app -= 40; } 
+            }
+        ]
     },
     { 
         news: "BORDER DISPUTE",
-        text: "Tensions flare as soldiers from a neighboring state cross into a demilitarized zone.", 
+        text: "Rival tanks are 'accidentally' conducting live-fire drills inside your territory. The world media is calling it the start of World War III.", 
         options: [
-            { text: "Mobilize the Army", sub: "Show of strength", deltas: {mil: 20, bud: -200, app: -5}, run: (s) => { s.mil += 20; s.bud -= 200; s.app -= 5; } }, 
-            { text: "Diplomatic Talks", sub: "Avoid war at all costs", deltas: {app: 10, mil: -10}, run: (s) => { s.app += 10; s.mil -= 10; } },
-            { text: "Cede the Territory", sub: "Humiliating peace", deltas: {mil: -30, app: -20}, run: (s) => { s.mil -= 30; s.app -= 20; } }
+            { text: "Full Mobilization", sub: "Prepare for total war.", deltas: {mil: 30, bud: -300, app: -10}, run: (s) => { s.mil += 30; s.bud -= 300; s.app -= 10; } }, 
+            { text: "Appeasement", sub: "Cede the border towns to maintain peace.", deltas: {mil: -40, app: -30, bud: 100}, run: (s) => { s.mil -= 40; s.app -= 30; s.bud += 100; } }
         ] 
     },
     { 
         news: "CYBER ATTACK",
-        text: "The national power grid is under a sustained attack by unknown hackers.", 
+        text: "The 'Zero-Day' virus has locked down the national power grid. The hospitals are on backup generators, and the stock market has halted.", 
         options: [
-            { text: "Full System Reset", sub: "Temporary chaos", deltas: {app: -15, bud: -100}, run: (s) => { s.app -= 15; s.bud -= 100; } }, 
-            { text: "Upgrade Firewalls", sub: "Costly defense", deltas: {bud: -400, mil: 15}, run: (s) => { s.bud -= 400; s.mil += 15; } },
-            { text: "Retaliate blindly", sub: "Hack back", deltas: {mil: 10, app: '?'}, run: (s) => { s.mil += 10; if(Math.random() > 0.5) { s.app -= 20; } } }
+            { text: "Pay the Ransom", sub: "Give the hackers $500M in untraceable crypto.", deltas: {bud: -500, app: -10}, run: (s) => { s.bud -= 500; s.app -= 10; } }, 
+            { text: "Brute Force Reset", sub: "Wipe the grid. 48 hours of total darkness.", deltas: {app: -25, mil: 10, bud: -100}, run: (s) => { s.app -= 25; s.mil += 10; s.bud -= 100; } }
         ] 
     },
     { 
         news: "NUCLEAR ENERGY",
-        text: "Scientists propose building a nuclear plant to solve the energy crisis, but locals are terrified.", 
+        text: "The 'Atom-1' reactor is leaking. You can either dump the waste into the ocean or bury it under a residential district.", 
         options: [
-            { text: "Build the Plant", sub: "Cheap power, high risk", deltas: {bud: 600, app: -20}, run: (s) => { s.bud += 600; s.app -= 20; } }, 
-            { text: "Renewable Project", sub: "Green but slow", deltas: {bud: -400, app: 20}, run: (s) => { s.bud -= 400; s.app += 20; } },
-            { text: "Cancel the Plans", sub: "Safety first", deltas: {app: 5, bud: -100}, run: (s) => { s.app += 5; s.bud -= 100; } }
+            { text: "Ocean Dump", sub: "Ecological disaster, but the city is safe.", deltas: {bud: -100, app: -10}, run: (s) => { s.bud -= 100; s.app -= 10; } }, 
+            { text: "Urban Burial", sub: "Sacrifice one district to save the coast.", deltas: {app: -40, bud: 50}, run: (s) => { s.app -= 40; s.bud += 50; } }
         ] 
     },
     { 
         news: "AI SUPREMACY",
-        text: "Silicon Valley researchers have developed an AI that can manage the economy better than humans.", 
+        text: "The 'Oracle' AI has calculated that it can eliminate poverty if you give it full control over the tax and military codes.", 
         options: [
-            { text: "Give AI Control", sub: "Perfect efficiency", deltas: {bud: 700, app: -25}, run: (s) => { s.bud += 700; s.app -= 25; } }, 
-            { text: "Ban AI Management", sub: "Keep human jobs", deltas: {app: 15, bud: -200}, run: (s) => { s.app += 15; s.bud -= 200; } }
+            { text: "Input Admin Password", sub: "Relinquish your power to the machine.", deltas: {bud: 800, app: -30, mil: -30}, run: (s) => { s.bud += 800; s.app -= 30; s.mil -= 30; } }, 
+            { text: "Deactivate Oracle", sub: "Protect human agency at all costs.", deltas: {app: 15, bud: -300}, run: (s) => { s.app += 15; s.bud -= 300; } }
         ] 
     },
     { 
         news: "INSIDER TRADING",
-        text: "Your Finance Minister was caught leaking treasury data to bank executives.", 
+        text: "Your Finance Minister was caught 'shorting' the national currency just before the latest crisis. The guillotine is being dusted off in the town square.", 
         options: [
-            { text: "Public Prosecution", sub: "Transparency wins", deltas: {app: 15, bud: -100}, run: (s) => { s.app += 15; s.bud -= 100; } }, 
-            { text: "Take a Cut", sub: "Private payoff", deltas: {bud: 500, app: -30}, run: (s) => { s.bud += 500; s.app -= 30; } }
+            { text: "Public Execution", sub: "Justice is served. The people love a show.", deltas: {app: 25, mil: -5}, run: (s) => { s.app += 25; s.mil -= 5; } }, 
+            { text: "Take the Hush Money", sub: "Let him flee the country for a $500M 'donation'.", deltas: {bud: 500, app: -40}, run: (s) => { s.bud += 500; s.app -= 40; } }
         ] 
     },
     { 
         news: "PRISON RIOT",
-        text: "The largest state prison has been taken over by inmates protesting conditions.", 
+        text: "The 'Iron-Gate' Penitentiary is in flames. The inmates have taken the guards hostage and are livestreaming their demands.", 
         options: [
-            { text: "Storm the Prison", sub: "Military solution", deltas: {mil: 10, app: -15}, run: (s) => { s.mil += 10; s.app -= 15; } }, 
-            { text: "Negotiate Reform", sub: "Human rights approach", deltas: {app: 15, bud: -200}, run: (s) => { s.app += 15; s.bud -= 200; } }
+            { text: "Gas the Block", sub: "End the riot instantly and lethally.", deltas: {mil: 15, app: -25}, run: (s) => { s.mil += 15; s.app -= 25; } }, 
+            { text: "Grant Amnesty", sub: "Release non-violent offenders to stop the fire.", deltas: {app: 20, mil: -20, bud: -100}, run: (s) => { s.app += 20; s.mil -= 20; s.bud -= 100; } }
         ] 
     },
     { 
         news: "COUP PLOT",
-        text: "Intelligence suggests a mid-level Colonel is planning a move against your cabinet.", 
+        text: "General Vance has been seen meeting with opposition leaders in a dark bunker. Your loyalists want to strike first.", 
         options: [
-            { text: "Quiet Purge", sub: "Remove the threat", deltas: {mil: -15, app: -5}, run: (s) => { s.mil -= 15; s.app -= 5; } }, 
-            { text: "Promote Him", sub: "Keep your enemies close", deltas: {mil: 10, app: '?'}, run: (s) => { s.mil += 10; if(Math.random() > 0.4) { s.app -= 15; } } }
+            { text: "Night of Long Knives", sub: "Purge the military leadership tonight.", deltas: {mil: -30, app: -10, bud: -50}, run: (s) => { s.mil -= 30; s.app -= 10; s.bud -= 50; } }, 
+            { text: "Bribe the General", sub: "Make him a Duke. Buy his loyalty.", deltas: {bud: -400, mil: 15}, run: (s) => { s.bud -= 400; s.mil += 15; } }
         ] 
     },
     { 
         news: "OLYMPIC BID",
-        text: "The Committee asks your nation to host the upcoming Games.", 
+        text: "The World Games Committee wants to host the next event in your capital. It will bring prestige, but requires building ten stadiums you don't need.", 
         options: [
-            { text: "Host the Games", sub: "Global glory, high debt", deltas: {bud: -800, app: 30}, run: (s) => { s.bud -= 800; s.app += 30; } }, 
-            { text: "Decline Offer", sub: "Focus on basics", deltas: {bud: 100, app: -10}, run: (s) => { s.bud += 100; s.app -= 10; } }
+            { text: "Gold Medal Host", sub: "Global glory, empty treasury.", deltas: {bud: -900, app: 40}, run: (s) => { s.bud -= 900; s.app += 40; } }, 
+            { text: "Decline and Reinvest", sub: "Build schools instead of stadiums.", deltas: {bud: 100, app: -15}, run: (s) => { s.bud += 100; s.app -= 15; } }
         ] 
     },
     { 
         news: "CURRENCY CRASH",
-        text: "The national currency is losing value rapidly against global markets.", 
+        text: "Hyper-inflation has hit. People are using your banknotes as wallpaper. The central bank is in a panic.", 
         options: [
-            { text: "Raise Interest Rates", sub: "Halt inflation", deltas: {app: -20, bud: 100}, run: (s) => { s.app -= 20; s.bud += 100; } }, 
-            { text: "Print More Money", sub: "Dangerous gamble", deltas: {bud: 500, app: '?'}, run: (s) => { s.bud += 500; s.app -= 40; } }
+            { text: "Hard Gold Standard", sub: "Stabilize by force, but freeze all credit.", deltas: {app: -25, bud: 200, mil: 10}, run: (s) => { s.app -= 25; s.bud += 200; s.mil += 10; } }, 
+            { text: "Print More", sub: "Keep the wheels turning for a few more weeks.", deltas: {bud: 500, app: -50}, run: (s) => { s.bud += 500; s.app -= 50; } }
         ] 
     },
     { 
         news: "WILDERNESS FIRE",
-        text: "A massive wildfire is threatening the nation's timber industry and air quality.", 
+        text: "The 'Great Northern Fire' is consuming the timber reserves. The smoke is so thick that planes can't land in the capital.", 
         options: [
-            { text: "Emergency Response", sub: "Save the forests", deltas: {bud: -300, app: 10}, run: (s) => { s.bud -= 300; s.app += 10; } }, 
-            { text: "Let it Burn", sub: "Save the budget", deltas: {bud: 50, app: -25}, run: (s) => { s.bud += 50; s.app -= 25; } }
+            { text: "Chemical Suppression", sub: "Use toxic retardants to kill the fire.", deltas: {bud: -300, app: 10, mil: -5}, run: (s) => { s.bud -= 300; s.app += 10; s.mil -= 5; } }, 
+            { text: "Controlled Burn", sub: "Destroy a dozen villages to stop the spread.", deltas: {app: -30, bud: 50}, run: (s) => { s.app -= 30; s.bud += 50; } }
         ] 
     },
     { 
         news: "TAX THE RICH",
-        text: "A popular movement demands a 70% wealth tax on billionaires.", 
+        text: "The 'Tax the Sun' movement has millions in the streets. They want to seize all assets over $100M to fund a basic income.", 
         options: [
-            { text: "Pass the Tax", sub: "Voters love it", deltas: {app: 25, bud: 600}, run: (s) => { s.app += 25; s.bud += 600; } }, 
-            { text: "Protect Business", sub: "Keep investors happy", deltas: {bud: -200, app: -15, mil: 5}, run: (s) => { s.bud -= 200; s.app -= 15; s.mil += 5; } }
+            { text: "Eat the Rich", sub: "Seize the billions. The people rejoice.", deltas: {app: 35, bud: 800, mil: -10}, run: (s) => { s.app += 35; s.bud += 800; s.mil -= 10; } }, 
+            { text: "Protect the Titans", sub: "Avoid a capital flight at any cost.", deltas: {bud: -200, app: -25, mil: 10}, run: (s) => { s.bud -= 200; s.app -= 25; s.mil += 10; } }
         ] 
     },
     { 
         news: "NATIONAL HOLIDAY",
-        text: "It is the anniversary of the country's founding. Citizens expect a celebration.", 
+        text: "It is Liberation Day. The tradition demands a parade of tanks and a week of free bread.", 
         options: [
-            { text: "Grand Parade", sub: "High morale, military pride", deltas: {app: 15, mil: 10, bud: -300}, run: (s) => { s.app += 15; s.mil += 10; s.bud -= 300; } }, 
-            { text: "Humble Ceremony", sub: "Save resources", deltas: {app: -5, bud: 50}, run: (s) => { s.app -= 5; s.bud += 50; } }
+            { text: "Bread and Circuses", sub: "High morale, military pride, massive bill.", deltas: {app: 20, mil: 15, bud: -400}, run: (s) => { s.app += 20; s.mil += 15; s.bud -= 400; } }, 
+            { text: "Humble Prayer", sub: "A quiet day of reflection to save money.", deltas: {app: -10, bud: 100}, run: (s) => { s.app -= 10; s.bud += 100; } }
         ] 
     },
     { 
         news: "WATER PRIVATIZATION",
-        text: "A global utility corp wants to buy the national water supply system.", 
+        text: "The 'Aqua-Corp' conglomerate wants to buy your reservoirs. They promise better tech, but they'll charge $5 a gallon.", 
         options: [
-            { text: "Sell System", sub: "Huge cash windfall", deltas: {bud: 900, app: -40}, run: (s) => { s.bud += 900; s.app -= 40; } }, 
-            { text: "Keep Public", sub: "Safe but expensive", deltas: {bud: -200, app: 10}, run: (s) => { s.bud -= 200; s.app += 10; } }
+            { text: "Sell the Rain", sub: "Flush the treasury with corporate cash.", deltas: {bud: 1000, app: -50}, run: (s) => { s.bud += 1000; s.app -= 50; } }, 
+            { text: "Public Utility", sub: "Water is a human right. The state pays the bill.", deltas: {bud: -300, app: 15}, run: (s) => { s.bud -= 300; s.app += 15; } }
         ] 
     },
     { 
         news: "GENETIC EDITING",
-        text: "Scientists have perfected 'Designer Baby' technology. Elites are eager to pay for it.", 
+        text: "The 'Gattaca' labs have opened. For $1M, parents can choose their baby's IQ and lifespan. The unedited 'naturals' are rioting.", 
         options: [
-            { text: "Legalize & Tax", sub: "Economic boom, social divide", deltas: {bud: 700, app: -20}, run: (s) => { s.bud += 700; s.app -= 20; } }, 
-            { text: "Ban Technology", sub: "Moral high ground", deltas: {app: 15, bud: -100}, run: (s) => { s.app += 15; s.bud -= 100; } },
-            { text: "State Super-Soldiers", sub: "Military evolution", deltas: {mil: 30, app: -30, bud: -400}, run: (s) => { s.mil += 30; s.app -= 30; s.bud -= 400; } }
+            { text: "Legalize and Tax", sub: "The next step in evolution, for a price.", deltas: {bud: 800, app: -30}, run: (s) => { s.bud += 800; s.app -= 30; } }, 
+            { text: "Ban the Tech", sub: "Protect human nature.", deltas: {app: 20, bud: -150}, run: (s) => { s.app += 20; s.bud -= 150; } },
+            { text: "Project Vanguard", sub: "Create a generation of super-soldiers.", deltas: {mil: 40, app: -40, bud: -500}, run: (s) => { s.mil += 40; s.app -= 40; s.bud -= 500; } }
         ] 
     },
     { 
         news: "WHISTLEBLOWER",
-        text: "An ex-agent reveals the state has been spying on every citizen's private messages.", 
+        text: "A recording of you mocking the 'poverty-stricken' has gone viral. Your approval is melting like ice in a furnace.", 
         options: [
-            { text: "Apologize & Stop", sub: "Restore privacy", deltas: {app: 20, mil: -15}, run: (s) => { s.app += 20; s.mil -= 15; } }, 
-            { text: "Double Down", sub: "Security is paramount", deltas: {app: -30, mil: 20}, run: (s) => { s.app -= 30; s.mil += 20; } },
-            { text: "Discredit Source", sub: "Character assassination", deltas: {app: '?', mil: 5}, run: (s) => { if(Math.random() > 0.5) { s.app += 5; } else { s.app -= 25; } } }
+            { text: "Tearful Apology", sub: "Beg for forgiveness on national TV.", deltas: {app: 10, bud: -100}, run: (s) => { s.app += 10; s.bud -= 100; } }, 
+            { text: "Double Down", sub: "Claim the recording was a deepfake. Ban the video.", deltas: {app: -30, mil: 20}, run: (s) => { s.app -= 30; s.mil += 20; } }
         ] 
     },
     { 
         news: "ROBOTIC LABOR",
-        text: "The manufacturing sector wants to replace 50% of the workforce with automated bots.", 
+        text: "The 'Bot-Workers' are replacing 80% of the trucking and mining sectors. The unions are threatening to blow up the factories.", 
         options: [
-            { text: "Tax the Robots", sub: "Fund the safety net", deltas: {bud: 400, app: 5}, run: (s) => { s.bud += 400; s.app += 5; } }, 
-            { text: "Unrestricted Growth", sub: "Corporate efficiency", deltas: {bud: 600, app: -30}, run: (s) => { s.bud += 600; s.app -= 30; } },
-            { text: "Protect Unions", sub: "Ban the machines", deltas: {app: 20, bud: -300}, run: (s) => { s.app += 20; s.bud -= 300; } }
+            { text: "Robot Tax", sub: "Make the machines pay for the safety net.", deltas: {bud: 500, app: 10}, run: (s) => { s.bud += 500; s.app += 10; } }, 
+            { text: "Unleash Efficiency", sub: "Profit is the only metric that matters.", deltas: {bud: 700, app: -40}, run: (s) => { s.bud += 700; s.app -= 40; } }
         ] 
     },
     { 
         news: "CASHLESS SOCIETY",
-        text: "The Central Bank proposes deleting physical currency to track all transactions.", 
+        text: "The Central Bank wants to delete the physical Dollar. Every cent will be digital, traceable, and subject to 'Social Scoring'.", 
         options: [
-            { text: "Digital Only", sub: "End the black market", deltas: {bud: 300, mil: 10, app: -20}, run: (s) => { s.bud += 300; s.mil += 10; s.app -= 20; } }, 
-            { text: "Keep Cash", sub: "Privacy and tradition", deltas: {app: 15, bud: -50}, run: (s) => { s.app += 15; s.bud -= 50; } }
+            { text: "Total Digitalization", sub: "Eliminate the shadow economy.", deltas: {bud: 400, mil: 15, app: -30}, run: (s) => { s.bud += 400; s.mil += 15; s.app -= 30; } }, 
+            { text: "Veto the Bill", sub: "Keep the freedom of physical cash.", deltas: {app: 20, bud: -100}, run: (s) => { s.app += 20; s.bud -= 100; } }
         ] 
     },
     { 
         news: "DEEP SEA DRILLING",
-        text: "Massive oil reserves found in a protected marine sanctuary. The industry is salivating.", 
+        text: "Oil has been found under the 'Sacred Coral Reef'. The environmentalists are chaining themselves to your oil tankers.", 
         options: [
-            { text: "Drill Everywhere", sub: "Energy independence", deltas: {bud: 800, app: -25}, run: (s) => { s.bud += 800; s.app -= 25; } }, 
-            { text: "Protect Sanctuary", sub: "Environmental legacy", deltas: {app: 20, bud: -100}, run: (s) => { s.app += 20; s.bud -= 100; } }
+            { text: "Drill Baby Drill", sub: "Wealth beyond imagining.", deltas: {bud: 900, app: -40, mil: 5}, run: (s) => { s.bud += 900; s.app -= 40; s.mil += 5; } }, 
+            { text: "Ecological Sanctuary", sub: "The reef is priceless. The budget is not.", deltas: {app: 25, bud: -200}, run: (s) => { s.app += 25; s.bud -= 200; } }
         ] 
     },
     { 
         news: "SATELLITE DOWN",
-        text: "A foreign nation 'accidentally' destroyed your primary communications satellite.", 
+        text: "Your primary GPS and Comms satellite has been hit by a 'stray' missile from the Northern Bloc.", 
         options: [
-            { text: "Demand Reparations", sub: "Diplomatic pressure", deltas: {bud: 200, app: 5}, run: (s) => { s.bud += 200; s.app += 5; } }, 
-            { text: "Orbital Retaliation", sub: "Eye for an eye", deltas: {mil: 15, bud: -300, app: -10}, run: (s) => { s.mil += 15; s.bud -= 300; s.app -= 10; } },
-            { text: "Cyber Response", sub: "Hidden strike", deltas: {mil: 5, app: '?'}, run: (s) => { s.mil += 5; if(Math.random() > 0.6) { s.app -= 15; } } }
+            { text: "Diplomatic Sanctions", sub: "Beg the UN for a resolution.", deltas: {bud: -100, app: 5}, run: (s) => { s.bud -= 100; s.app += 5; } }, 
+            { text: "Orbital Strike", sub: "Destroy their satellite in return.", deltas: {mil: 20, bud: -400, app: -10}, run: (s) => { s.mil += 20; s.bud -= 400; s.app -= 10; } }
         ] 
     },
     { 
         news: "BRAIN DRAIN",
-        text: "The nation's top scientists are moving abroad for better pay and freedom.", 
+        text: "Your top ten physicists have just defected to a rival nation. They cited 'lack of funding' and 'too much surveillance'.", 
         options: [
-            { text: "Subsidize Salaries", sub: "Expensive retention", deltas: {bud: -500, app: 10}, run: (s) => { s.bud -= 500; s.app += 10; } }, 
-            { text: "Exit Visas", sub: "Force them to stay", deltas: {app: -30, mil: 10}, run: (s) => { s.app -= 30; s.mil += 10; } }
+            { text: "Golden Handcuffs", sub: "Triple the science budget instantly.", deltas: {bud: -600, app: 10}, run: (s) => { s.bud -= 600; s.app += 10; } }, 
+            { text: "Blacklist Families", sub: "Punish those who stayed to prevent further flight.", deltas: {app: -40, mil: 15}, run: (s) => { s.app -= 40; s.mil += 15; } }
         ] 
     },
     { 
         news: "FAKE NEWS VIRAL",
-        text: "A viral deepfake of you accepting a bribe is circulating. Half the country believes it.", 
+        text: "A deepfake of you accepting a bribe from a drug cartel is being aired on every news channel.", 
         options: [
-            { text: "Shut Down Internet", sub: "Stop the spread", deltas: {app: -40, mil: 20, bud: -200}, run: (s) => { s.app -= 40; s.mil += 20; s.bud -= 200; } }, 
-            { text: "Independent Audit", sub: "Prove your innocence", deltas: {app: 10, bud: -100}, run: (s) => { s.app += 10; s.bud -= 100; } },
-            { text: "Counter-Propaganda", sub: "Fight fire with fire", deltas: {bud: -150, app: '?'}, run: (s) => { s.bud -= 150; s.app += (Math.random() > 0.5 ? 20 : -10); } }
+            { text: "Shut Down the Net", sub: "The 'Kill Switch' option.", deltas: {app: -50, mil: 30, bud: -300}, run: (s) => { s.app -= 50; s.mil += 30; s.bud -= 300; } }, 
+            { text: "Fact-Check Campaign", sub: "Slow, expensive, and mostly ignored.", deltas: {app: 10, bud: -200}, run: (s) => { s.app += 10; s.bud -= 200; } }
         ] 
     },
     { 
         news: "HOUSING CRISIS",
-        text: "Rent prices have tripled. Young people are sleeping in parks and vehicles.", 
+        text: "The 'Tent Cities' now outnumber the actual houses in the city center. The middle class is disappearing.", 
         options: [
-            { text: "Rent Control", sub: "Popular, but hurts growth", deltas: {app: 25, bud: -100}, run: (s) => { s.app += 25; s.bud -= 100; } }, 
-            { text: "Seize Empty Units", sub: "Radical redistribution", deltas: {app: 30, bud: -200, mil: -10}, run: (s) => { s.app += 30; s.bud -= 200; s.mil -= 10; } },
-            { text: "Build Megatowers", sub: "Slow but permanent", deltas: {bud: -600, app: 10}, run: (s) => { s.bud -= 600; s.app += 10; } }
+            { text: "Nationalize Landlord Assets", sub: "Seize the corporate apartments.", deltas: {app: 40, bud: -300, mil: -10}, run: (s) => { s.app += 40; s.bud -= 300; s.mil -= 10; } }, 
+            { text: "Build Concrete Megatowers", sub: "Brutalist housing for the masses.", deltas: {bud: -700, app: 15}, run: (s) => { s.bud -= 700; s.app += 15; } }
         ] 
     },
     { 
         news: "ALIEN SIGNAL",
-        text: "Radio telescopes have confirmed a non-random signal from the Proxima system.", 
+        text: "Radio telescopes have confirmed a signal from deep space: 'We are coming.' The world is in a state of existential panic.", 
         options: [
-            { text: "Global Broadcast", sub: "Unite humanity", deltas: {app: 30, mil: -10}, run: (s) => { s.app += 30; s.mil -= 10; } }, 
-            { text: "Classify Top Secret", sub: "Knowledge is power", deltas: {mil: 20, app: -10}, run: (s) => { s.mil += 20; s.app -= 10; } },
-            { text: "Weaponize Research", sub: "Prepare for the worst", deltas: {mil: 40, bud: -500}, run: (s) => { s.mil += 40; s.bud -= 500; } }
+            { text: "Global Unity Broadcast", sub: "The species must stand together.", deltas: {app: 40, mil: -20}, run: (s) => { s.app += 40; s.mil -= 20; } }, 
+            { text: "Planetary Defense", sub: "All budget to the Space Marines.", deltas: {mil: 50, bud: -800}, run: (s) => { s.mil += 50; s.bud -= 800; } }
         ] 
     },
     { 
         news: "AUTOMATED JUSTICE",
-        text: "The Ministry of Justice wants to replace judges with 'bias-free' AI algorithms to clear the case backlog.", 
+        text: "The 'Justice-V1' algorithm has a 0% error rate but tends to give 50-year sentences for petty theft.", 
         options: [
-            { text: "Implement AI Judges", sub: "Swift, cold efficiency", deltas: {bud: 300, app: -15, mil: 5}, run: (s) => { s.bud += 300; s.app -= 15; s.mil += 5; } }, 
-            { text: "Expand Human Courts", sub: "Justice with a soul", deltas: {bud: -400, app: 15}, run: (s) => { s.bud -= 400; s.app += 15; } }
+            { text: "Install AI Judges", sub: "Clear the backlog with steel logic.", deltas: {bud: 400, app: -25, mil: 10}, run: (s) => { s.bud += 400; s.app -= 25; s.mil += 10; } }, 
+            { text: "Human Leniency", sub: "Keep the messy, slow human courts.", deltas: {bud: -500, app: 20}, run: (s) => { s.bud -= 500; s.app += 20; } }
         ] 
     },
     { 
         news: "CULTURAL REPATRIATION",
-        text: "A former colony demands the return of ancient artifacts currently held in your national museum.", 
+        text: "The 'Golden Crown' of the Old Empire is in your museum. The descendants are threatening a trade war if it isn't returned.", 
         options: [
-            { text: "Return Artifacts", sub: "Global respect, lost tourism", deltas: {app: 10, bud: -100}, run: (s) => { s.app += 10; s.bud -= 100; } }, 
-            { text: "Refuse Claim", sub: "National heritage first", deltas: {app: -5, mil: 5}, run: (s) => { s.app -= 5; s.mil += 5; } }
+            { text: "Give it Back", sub: "National humiliation, global respect.", deltas: {app: -10, bud: -100, mil: -5}, run: (s) => { s.app -= 10; s.bud -= 100; s.mil -= 5; } }, 
+            { text: "Finders Keepers", sub: "Protect the national heritage.", deltas: {app: 10, mil: 10}, run: (s) => { s.app += 10; s.mil += 10; } }
         ] 
     },
     { 
         news: "SINKING COASTLINE",
-        text: "Rising sea levels are flooding the capital's subway system. Engineers propose a massive sea wall.", 
+        text: "The ocean is now the ground floor of your financial district. The bankers are working from lifeboats.", 
         options: [
-            { text: "The Great Barrier", sub: "Unprecedented engineering", deltas: {bud: -900, app: 20}, run: (s) => { s.bud -= 900; s.app += 20; } }, 
-            { text: "Inland Migration", sub: "Abandon the coast", deltas: {app: -40, bud: -200, mil: 10}, run: (s) => { s.app -= 40; s.bud -= 200; s.mil += 10; } }
+            { text: "The Great Dyke", sub: "A $1B sea wall.", deltas: {bud: -1000, app: 25}, run: (s) => { s.bud -= 1000; s.app += 25; } }, 
+            { text: "Abandon the Coast", sub: "Force 10 million people to move inland.", deltas: {app: -50, mil: 15, bud: -200}, run: (s) => { s.app -= 50; s.mil += 15; s.bud -= 200; } }
         ] 
     },
     { 
         news: "BRAIN-COMPUTER LINK",
-        text: "A tech startup offers to implant neural chips in workers to 'triple productivity'.", 
+        text: "The 'Link-1' chip allows workers to upload data directly to their brains. It also allows the company to monitor their dreams.", 
         options: [
-            { text: "Mandate for State Staff", sub: "Dystopian efficiency", deltas: {bud: 500, app: -30, mil: 20}, run: (s) => { s.bud += 500; s.app -= 30; s.mil += 20; } }, 
-            { text: "Strict Regulation", sub: "Humanity over output", deltas: {app: 15, bud: -150}, run: (s) => { s.app += 15; s.bud -= 150; } }
+            { text: "Universal Mandate", sub: "Efficiency is the only goal.", deltas: {bud: 600, app: -40, mil: 25}, run: (s) => { s.bud += 600; s.app -= 40; s.mil += 25; } }, 
+            { text: "Ban Neural Tech", sub: "Keep the mind private.", deltas: {app: 20, bud: -200}, run: (s) => { s.app += 20; s.bud -= 200; } }
         ] 
     },
     { 
         news: "SOCIAL CREDIT SYSTEM",
-        text: "The Security Bureau wants to track citizen behavior to 'incentivize good patriotism'.", 
+        text: "The Security Bureau proposes 'The Citizen Score'. Compliant citizens get low interest rates; protestors get no internet.", 
         options: [
-            { text: "Launch the System", sub: "Total social order", deltas: {mil: 25, app: -25}, run: (s) => { s.mil += 25; s.app -= 25; } }, 
-            { text: "Reject Surveillance", sub: "Freedom over safety", deltas: {app: 20, mil: -15}, run: (s) => { s.app += 20; s.mil -= 15; } }
+            { text: "Activate Scoring", sub: "Perfect social control.", deltas: {mil: 30, app: -40, bud: 200}, run: (s) => { s.mil += 30; s.app -= 40; s.bud += 200; } }, 
+            { text: "Civil Liberties", sub: "Protect the right to be a nuisance.", deltas: {app: 25, mil: -20, bud: -100}, run: (s) => { s.app += 25; s.mil -= 20; s.bud -= 100; } }
         ] 
     },
     { 
         news: "FROZEN ASSETS",
-        text: "An exiled dictator's billions have been found in your national banks. The world is watching.", 
+        text: "A fleet of yachts belonging to the 'Shadow Oligarchs' has been seized. It's enough money to fund the government for a year.", 
         options: [
-            { text: "Seize for Treasury", sub: "Immediate wealth injection", deltas: {bud: 1000, app: -10}, run: (s) => { s.bud += 1000; s.app -= 10; } }, 
-            { text: "Return to the People", sub: "International praise", deltas: {app: 20, bud: -50}, run: (s) => { s.app += 20; s.bud -= 50; } }
+            { text: "Liquidate Everything", sub: "Instant wealth, powerful enemies.", deltas: {bud: 1200, app: -15, mil: -10}, run: (s) => { s.bud += 1200; s.app -= 15; s.mil -= 10; } }, 
+            { text: "Return Assets", sub: "Avoid an international assassination plot.", deltas: {app: -20, mil: 10, bud: 100}, run: (s) => { s.app -= 20; s.mil += 10; s.bud += 100; } }
         ] 
     },
     { 
         news: "MILITARY EXERCISE",
-        text: "A rival nation is conducting live-fire drills right on your maritime border.", 
+        text: "The 'Iron Dragon' fleet is 2 miles off your coast. They are launching non-nuclear flares over your capital.", 
         options: [
-            { text: "Symmetric Response", sub: "Show of force", deltas: {mil: 15, bud: -200, app: -5}, run: (s) => { s.mil += 15; s.bud -= 200; s.app -= 5; } }, 
-            { text: "Ignore Provocation", sub: "Calculated restraint", deltas: {mil: -10, app: 5}, run: (s) => { s.mil -= 10; s.app += 5; } }
+            { text: "Launch Interceptors", sub: "Aggressive defense.", deltas: {mil: 15, bud: -300, app: -5}, run: (s) => { s.mil += 15; s.bud -= 300; s.app -= 5; } }, 
+            { text: "Radio Silence", sub: "Do not give them the war they want.", deltas: {mil: -20, app: 10}, run: (s) => { s.mil -= 20; s.app += 10; } }
         ] 
     },
     { 
         news: "ENERGY SHORTAGE",
-        text: "The national grid is failing. You must choose which sector to blackout.", 
+        text: "The grid is redlining. You can either turn off the air conditioning for the slums or turn off the servers for the banking district.", 
         options: [
-            { text: "Cut Residential", sub: "Save the factories", deltas: {app: -30, bud: 100}, run: (s) => { s.app -= 30; s.bud += 100; } }, 
-            { text: "Cut Industrial", sub: "People over profit", deltas: {bud: -400, app: 15}, run: (s) => { s.bud -= 400; s.app += 15; } }
+            { text: "Blackout the Slums", sub: "Keep the money flowing.", deltas: {app: -40, bud: 200}, run: (s) => { s.app -= 40; s.bud += 200; } }, 
+            { text: "Blackout the Banks", sub: "People over profits.", deltas: {bud: -600, app: 20}, run: (s) => { s.bud -= 600; s.app += 20; } }
         ] 
     },
     { 
         news: "LAB-GROWN MEAT",
-        text: "The agricultural lobby is protesting against new synthetic protein factories.", 
+        text: "The 'Synth-Steak' revolution is here. It's cheaper, but the cattle ranchers are burning down the labs in protest.", 
         options: [
-            { text: "Ban Synthetic Meat", sub: "Protect the farmers", deltas: {app: 10, bud: -150}, run: (s) => { s.app += 10; s.bud -= 150; } }, 
-            { text: "Subsidize Labs", sub: "End hunger forever", deltas: {bud: -300, app: 15}, run: (s) => { s.bud -= 300; s.app += 15; } }
+            { text: "Support the Labs", sub: "End hunger, kill the tradition.", deltas: {bud: 400, app: 15, mil: -10}, run: (s) => { s.bud += 400; s.app += 15; s.mil -= 10; } }, 
+            { text: "Protect the Ranchers", sub: "Ban the 'Franken-Meat'.", deltas: {app: 10, bud: -200}, run: (s) => { s.app += 10; s.bud -= 200; } }
         ] 
     },
     { 
         news: "RELIGIOUS APOCALYPSE",
-        text: "A doomsday cult is gaining popularity, claiming the end is near and taxes are irrelevant.", 
+        text: "The 'Final Dawn' cult has bought a private island and is loading it with stolen military hardware. They claim the end is next Tuesday.", 
         options: [
-            { text: "Forceful Crackdown", sub: "End the heresy", deltas: {mil: 15, app: -20}, run: (s) => { s.mil += 15; s.app -= 20; } }, 
-            { text: "Public Debate", sub: "Peaceful de-escalation", deltas: {app: 10, bud: -100}, run: (s) => { s.app += 10; s.bud -= 100; } },
-            { text: "Infiltrate", sub: "Risky intelligence op", deltas: {mil: 5, app: '?'}, run: (s) => { s.mil += 5; s.app += (Math.random() > 0.5 ? 10 : -30); } }
+            { text: "Airstrike the Island", sub: "End the threat decisively.", deltas: {mil: 20, app: -25, bud: -200}, run: (s) => { s.mil += 20; s.app -= 25; s.bud -= 200; } }, 
+            { text: "Tax the Cult", sub: "If they're right, money won't matter.", deltas: {bud: 500, app: -10}, run: (s) => { s.bud += 500; s.app -= 10; } }
+        ] 
+    },
+    // NEW EVENTS
+    { 
+        news: "THE MIGRANT CARAVAN",
+        text: "A million refugees from a war-torn neighbor have arrived at the wall. They are starving and cold.", 
+        options: [
+            { text: "Open the Gates", sub: "Humanitarian triumph, economic strain.", deltas: {app: 20, bud: -400, mil: -10}, run: (s) => { s.app += 20; s.bud -= 400; s.mil -= 10; } }, 
+            { text: "Militarize the Border", sub: "Keep them out by any means.", deltas: {mil: 25, app: -30, bud: -100}, run: (s) => { s.mil += 25; s.app -= 30; s.bud -= 100; } }
+        ] 
+    },
+    { 
+        news: "THE GENIUS CHILD",
+        text: "A 12-year-old has hacked the national security mainframe and is holding the launch codes for fun.", 
+        options: [
+            { text: "Recruit Him", sub: "A new head for the Cyber Division.", deltas: {mil: 20, bud: -100}, run: (s) => { s.mil += 20; s.bud -= 100; } }, 
+            { text: "Prison for Life", sub: "Set a terrifying example.", deltas: {app: -20, mil: 10}, run: (s) => { s.app -= 20; s.mil += 10; } }
+        ] 
+    },
+    { 
+        news: "THE LONGEVITY CURE",
+        text: "A drug has been found that stops aging. If you release it, the population will double every 20 years.", 
+        options: [
+            { text: "Release to Public", sub: "Eternal life for everyone.", deltas: {app: 50, bud: -900}, run: (s) => { s.app += 50; s.bud -= 900; } }, 
+            { text: "Keep for Elites", sub: "A secret for the top 1%.", deltas: {bud: 1000, app: -40, mil: 10}, run: (s) => { s.bud += 1000; s.app -= 40; s.mil += 10; } }
+        ] 
+    },
+    { 
+        news: "THE OLYMPIC SCANDAL",
+        text: "Your national team was caught using 'Genetic Enhancement' during the finals. The world wants your medals back.", 
+        options: [
+            { text: "Admit and Resign", sub: "Save the national honor.", deltas: {app: -30, mil: -10}, run: (s) => { s.app -= 30; s.mil -= 10; } }, 
+            { text: "Deny Everything", sub: "The 'World is against us' strategy.", deltas: {app: 15, mil: 15, bud: -200}, run: (s) => { s.app += 15; s.mil += 15; s.bud -= 200; } }
+        ] 
+    },
+    { 
+        news: "THE ARTIFICIAL FAMINE",
+        text: "A logistical AI error has redirected all food shipments to the military bunkers. The cities are empty.", 
+        options: [
+            { text: "Feed the People", sub: "Seize the military rations.", deltas: {app: 30, mil: -40}, run: (s) => { s.app += 30; s.mil -= 40; } }, 
+            { text: "Maintain Readiness", sub: "The army must be strong to stop the riots.", deltas: {mil: 20, app: -50}, run: (s) => { s.mil += 20; s.app -= 50; } }
         ] 
     }
 ];
