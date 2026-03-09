@@ -138,9 +138,9 @@
 <div id="game-window">
     <div id="error-overlay" class="hidden">
         <i class="fa-solid fa-triangle-exclamation" style="font-size: 3rem; margin-bottom: 20px;"></i>
-        <h2 style="text-transform: uppercase; letter-spacing: 2px;">System Failure</h2>
+        <h2 style="text-transform: uppercase; letter-spacing: 2px;">Something Went Wrong</h2>
         <p id="error-message" style="color: var(--dim-text); margin-bottom: 30px;"></p>
-        <button class="btn" onclick="location.reload()">Reboot</button>
+        <button class="btn" onclick="location.reload()">Retry</button>
     </div>
 
     <div id="start-screen" class="screen" style="justify-content: center;">
@@ -204,7 +204,7 @@
 
     function checkSystem() {
         if (typeof missions === 'undefined' || !Array.isArray(missions)) {
-            showError("Core missions.js file missing or corrupted.");
+            showError("missions.js file missing or corrupted.");
             return;
         }
         showScreen('char-screen');
