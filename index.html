@@ -284,7 +284,7 @@
                 opt.run(stats); 
                 underInquiry = false; // Reset flag AFTER choice is made
                 updateUI(); 
-                if(!underInquiry && stats.app > 0 && stats.mil > 0 && stats.bud > 0) loadMission(); 
+                if(!underInquiry && stats.app > 0 && stats.mil > 0 && stats.bud > 0) loadEvent(); 
             };
             container.appendChild(btn);
         });
@@ -296,9 +296,9 @@
         return `${val > 0 ? '+' : ''}${val} ${label}`;
     }
 
-    function loadMission() {
+    function loadEvent() {
         if (underInquiry) return;
-        if (pool.length === 0) pool = [...missions];
+        if (pool.length === 0) pool = [...events];
         const idx = Math.floor(Math.random() * pool.length);
         const m = pool.splice(idx, 1)[0];
 
